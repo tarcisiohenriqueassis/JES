@@ -1,0 +1,32 @@
+# Ignorar arquivos e pastas desnecessárias ou protegidas
+
+# Pastas do sistema Windows
+C:\Users\tarci\AppData\
+C:\Users\tarci\AppData\Local\Temp\WinSAT
+# Node modules (reinstalado no build)
+node_modules/
+
+# Arquivos de configuração e cache
+*.log
+*.tmp
+*.bak
+*.DS_Store
+*.swp
+
+# Git e arquivos de controle
+.git
+.gitignore
+
+# IDEs
+.vscode/
+.idea/
+
+# Arquivos de build
+*.apk
+*.aab
+*.tar.gz
+*.zip
+
+# Outros
+npm-debug.log
+yarn.lock
