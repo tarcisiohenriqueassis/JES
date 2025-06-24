@@ -25,7 +25,7 @@ export default function CadastrarVigilante() {
       // Aqui, estamos enviando o CPF sem formatação, apenas números
       const cpfNumeros = cpf.replace(/\D/g, '');
 
-      await axios.post('https://api-jesseguranca.onrender.com', { nome, cpf: cpfNumeros });
+      await axios.post('https://api-jesseguranca.onrender.com/', { nome, cpf: cpfNumeros });
       
       Alert.alert('Sucesso', 'Usuário cadastrado com sucesso!');
       
