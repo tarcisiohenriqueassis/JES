@@ -12,6 +12,7 @@ import {
   TouchableOpacity,
   Modal,
   StyleSheet,
+  TextInput
 } from 'react-native';
 
 // Importa o ícone Ionicons do Expo para usar ícones
@@ -37,13 +38,14 @@ export default function FuncionariosScreen() {
   const [selecionados, setSelecionados] = useState([]);
   const [carregando, setCarregando] = useState(true);
   const [menuVisivel, setMenuVisivel] = useState(false);
+  const [busca, setBusca] = useState('');
   
 
   // Define a função buscarFuncionarios fora do useEffect para que possa ser usada em outros lugares
   const buscarFuncionarios = async () => {
     try {
 
-      const response = await axios.get('https://api-jesseguranca.onrender.com');
+      const response = await axios.get('https://api-jesseguranca.onrender.com/');
 
       // Ordena a lista de funcionários pelo nome
       // Usando localeCompare para garantir a ordenação correta em português
@@ -99,6 +101,10 @@ export default function FuncionariosScreen() {
     setMenuVisivel(false);
   };
 
+  const funcionariosFiltrados = funcionarios.filter((f) =>
+  f.nome.toLowerCase().includes(busca.toLowerCase()) || f.cpf.includes(busca)
+);
+
   if (carregando) {
     return <Carregando />;
   }
@@ -108,12 +114,18 @@ export default function FuncionariosScreen() {
       {/* Título fixo no topo da tela */}
       <View style={styles.header}>
         <Text style={styles.titulo}>Lista de Funcionários</Text>
+       <TextInput
+      placeholder="Buscar por Nome ou CPF"
+      placeholderTextColor="#999"
+      style={styles.inputBusca}
+      value={busca}
+      onChangeText={setBusca}
+       />
       </View>
-
       {/* Lista */}
       <FlatList
         contentContainerStyle={{ paddingHorizontal: 20, paddingBottom: 120 }}
-        data={funcionarios}
+          data={funcionariosFiltrados}
         keyExtractor={(item) => item.cpf.toString()}
         renderItem={({ item }) => {
           const selecionado = selecionados.includes(item.cpf);
@@ -143,7 +155,7 @@ export default function FuncionariosScreen() {
         style={styles.botaoFlutuante}
         onPress={() => setMenuVisivel(!menuVisivel)}
       >
-        <Text style={{ color: 'Black',fontWeight:'bold', fontSize: 40 }}> {menuVisivel === true ? <Ionicons name="close" style={{ fontSize: 35 }} /> :<Ionicons name="ellipsis-vertical-circle" style={{ fontSize: 35 }} /> }</Text>
+        <Text style={{ color: 'Black',fontWeight:'bold', fontSize: 40 }}> {menuVisivel === true ? <Ionicons name="close" style={{ fontSize: 40 }} /> :<Ionicons name="ellipsis-vertical-circle" style={{ fontSize: 40 }} /> }</Text>
       </TouchableOpacity>
 
       {/* Menu Modal flutuante */}
@@ -162,7 +174,7 @@ export default function FuncionariosScreen() {
             <Button title="Copiar selecionados" onPress={copiarSelecionados} />
             
             <View style={{ height: 12 }} />
-            <Button title="Atualizar lista" onPress={() => buscarFuncionarios()} />
+            <Button title="Atualizar lista" onPress={() => buscarFuncionarios(Alert.alert('Lista atualizada!'))} />
           </View>
         </TouchableOpacity>
       </Modal>
@@ -221,7 +233,7 @@ const styles = StyleSheet.create({
   },
   menuFlutuante: {
     position: 'absolute',
-    bottom: 324,
+    bottom: 272,
     right: 20,
     backgroundColor: 'white',
     borderRadius: 8,
@@ -232,4 +244,14 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.3,
     shadowRadius: 4,
   },
+  inputBusca: {
+  marginTop: 10,
+  padding: 10,
+  borderWidth: 1,
+  borderColor: '#ccc',
+  borderRadius: 8,
+  backgroundColor: '#fff',
+  fontSize: 16,
+}
+
 });
