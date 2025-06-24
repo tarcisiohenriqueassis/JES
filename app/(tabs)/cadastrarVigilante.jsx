@@ -15,12 +15,21 @@ export default function CadastrarVigilante() {
     }
 
     try {
-      await axios.post('http://192.168.0.110:3000/usuarios', { nome, cpf });
+      // Remove caracteres não numéricos do CPF
+      if (!/^\d{11}$/.test(cpf.replace(/\D/g, ''))) {
+        Alert.alert('Erro', 'CPF inválido. Deve conter 11 dígitos numéricos.');
+        return;
+      }
+      // Envia os dados para a API
+      // Certifique-se de que a API está configurada para aceitar o formato correto
+      // Aqui, estamos enviando o CPF sem formatação, apenas números
+      const cpfNumeros = cpf.replace(/\D/g, '');
+      await axios.post('https://api-jesseguranca.onrender.com/funcionarios', { nome, cpf: cpfNumeros });
       Alert.alert('Sucesso', 'Usuário cadastrado com sucesso!');
-      setUsuarios((prev) => [...prev, { nome, cpf }]);
+      setUsuarios((prev) => [...prev, { nome, cpf: cpfNumeros }]);
       setNome('');
       setCpf('');
-    } catch (error) {
+    } catch (_error) {
       Alert.alert('Erro', 'Não foi possível cadastrar o usuário');
     }
   };

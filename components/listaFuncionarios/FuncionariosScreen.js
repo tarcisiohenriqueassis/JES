@@ -13,40 +13,54 @@ import {
   Modal,
   StyleSheet,
 } from 'react-native';
+
+// Importa o ícone Ionicons do Expo para usar ícones
+import { Ionicons } from '@expo/vector-icons';
+
 // Importa o Expo Clipboard para copiar dados para a área de transferência
 import * as Clipboard from 'expo-clipboard';
+
 // Importa a biblioteca axios para fazer requisições HTTP
 import axios from 'axios';
 
 // Importa a função para formatar CPF
 import formatarCpf from '../../utils/formataCPF';
+
 // Importa o componente de carregamento
 import Carregando from '../../utils/carregando';
 
 
 export default function FuncionariosScreen() {
+
+  // Define os estados necessários para o componente
   const [funcionarios, setFuncionarios] = useState([]);
   const [selecionados, setSelecionados] = useState([]);
   const [carregando, setCarregando] = useState(true);
   const [menuVisivel, setMenuVisivel] = useState(false);
+  
+
+  // Define a função buscarFuncionarios fora do useEffect para que possa ser usada em outros lugares
+  const buscarFuncionarios = async () => {
+    try {
+
+      const response = await axios.get('https://api-jesseguranca.onrender.com');
+
+      // Ordena a lista de funcionários pelo nome
+      // Usando localeCompare para garantir a ordenação correta em português
+      const listaOrdenada = response.data.sort((a, b) =>
+        a.nome.localeCompare(b.nome, 'pt', { sensitivity: 'base' })
+      );
+      setFuncionarios(listaOrdenada);
+    } 
+    catch (_error) {
+      Alert.alert('Erro ao carregar funcionários');
+    }
+     finally {
+      setCarregando(false);
+    }
+  };
 
   useEffect(() => {
-    const buscarFuncionarios = async () => {
-      try {
-        const response = await axios.get('https://api-jesseguranca.onrender.com');
-        // Ordena a lista de funcionários pelo nome
-        // Usando localeCompare para garantir a ordenação correta em português
-        const listaOrdenada = response.data.sort((a, b) =>
-          a.nome.localeCompare(b.nome, 'pt', { sensitivity: 'base' })
-        );
-        setFuncionarios(listaOrdenada);
-      } catch (error) {
-        Alert.alert('Erro ao carregar funcionários');
-      } finally {
-        setCarregando(false);
-      }
-    };
-
     buscarFuncionarios();
   }, []);
 
@@ -74,7 +88,7 @@ export default function FuncionariosScreen() {
     Alert.alert('Copiado!', 'Funcionários copiados com CPF formatado.');
     setMenuVisivel(false);
   };
-  
+
   const selecionarTodos = () => {
     if (selecionados.length === funcionarios.length) {
       setSelecionados([]);
@@ -110,7 +124,7 @@ export default function FuncionariosScreen() {
               style={styles.card}
             >
               <View style={[styles.checkbox, { backgroundColor: selecionado ? '#007AFF' : '#FFF' }]}>
-                {selecionado && <Text style={styles.checkmark}>✓</Text>}
+                {selecionado && <Text style={styles.checkmark}><Ionicons name="checkmark" size={18} color="#FFF" /></Text>}
               </View>
 
               <View style={{ maxWidth: '85%' }}>
@@ -129,7 +143,7 @@ export default function FuncionariosScreen() {
         style={styles.botaoFlutuante}
         onPress={() => setMenuVisivel(!menuVisivel)}
       >
-        <Text style={{ color: 'Black',fontWeight:'bold', fontSize: 40 }}>⋮</Text>
+        <Text style={{ color: 'Black',fontWeight:'bold', fontSize: 40 }}> {menuVisivel === true ? <Ionicons name="close" style={{ fontSize: 35 }} /> :<Ionicons name="ellipsis-vertical-circle" style={{ fontSize: 35 }} /> }</Text>
       </TouchableOpacity>
 
       {/* Menu Modal flutuante */}
@@ -144,8 +158,11 @@ export default function FuncionariosScreen() {
               title={selecionados.length === funcionarios.length ? 'Limpar Seleção' : 'Selecionar Todos'}
               onPress={selecionarTodos}
             />
-            <View style={{ height: 10 }} />
+            <View style={{ height: 12 }} />
             <Button title="Copiar selecionados" onPress={copiarSelecionados} />
+            
+            <View style={{ height: 12 }} />
+            <Button title="Atualizar lista" onPress={() => buscarFuncionarios()} />
           </View>
         </TouchableOpacity>
       </Modal>
@@ -191,12 +208,12 @@ const styles = StyleSheet.create({
   },
   botaoFlutuante: {
     position: 'absolute',
-    bottom: 690,
+    bottom: 420,
     right: 20,
     width: 60,
     height: 60,
     borderRadius: 30,
-    backgroundColor: 'red',
+    backgroundColor: 'transparent',
     justifyContent: 'center',
     alignItems: 'center',
     elevation: 8,
@@ -204,7 +221,7 @@ const styles = StyleSheet.create({
   },
   menuFlutuante: {
     position: 'absolute',
-    bottom: 323,
+    bottom: 324,
     right: 20,
     backgroundColor: 'white',
     borderRadius: 8,
