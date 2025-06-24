@@ -27,6 +27,9 @@ import axios from 'axios';
 // Importa a função para formatar CPF
 import formatarCpf from '../../utils/formataCPF';
 
+// Importa o router do expo-router para navegação
+import { router } from 'expo-router';
+
 // Importa o componente de carregamento
 import Carregando from '../../utils/carregando';
 
@@ -129,7 +132,7 @@ export default function FuncionariosScreen() {
           const selecionado = selecionados.includes(item.cpf);
 
           return (
-            <Pressable
+            <Pressable 
               onPress={() => alternarSelecao(item.cpf)}
               style={styles.card}
             >
@@ -142,6 +145,9 @@ export default function FuncionariosScreen() {
                   Nome: {item.nome}
                 </Text>
                 <Text style={{ fontSize: 14, color: '#666' }}>Cpf: {item.cpf}</Text>
+                <Button title={<Ionicons name="pencil" size={16} color="#007AFF" />} onPress={() => router.push({ pathname: '/editarFuncionario',
+                   params: { id: item.id, nome: item.nome, cpf: item.cpf } })} />
+
               </View>
             </Pressable>
           );
