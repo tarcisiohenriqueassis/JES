@@ -12,7 +12,8 @@ import {
   TouchableOpacity,
   Modal,
   StyleSheet,
-  TextInput
+  TextInput,
+  Platform
 } from 'react-native';
 
 // Importa o ícone Ionicons do Expo para usar ícones
@@ -111,7 +112,7 @@ export default function FuncionariosScreen() {
   }
 
   return (
-    <View style={{ flex: 1 }}>
+    <View style={{ width: '100%', height: '100%' }}>
       {/* Título fixo no topo da tela */}
       <View style={styles.header}>
         <Text style={styles.titulo}>Lista de Funcionários</Text>
@@ -145,9 +146,15 @@ export default function FuncionariosScreen() {
                   Nome: {item.nome}
                 </Text>
                 <Text style={{ fontSize: 14, color: '#666' }}>Cpf: {item.cpf}</Text>
-                <Button title={<Ionicons name="pencil" size={16} color="#007AFF" />} onPress={() => router.push({ pathname: '/editarFuncionario',
-                   params: { id: item.id, nome: item.nome, cpf: item.cpf } })} />
 
+                  <TouchableOpacity onPress={() => router.push({ pathname: '/editarFuncionario',
+                   params: { id: item.id, nome: item.nome, cpf: item.cpf } })} style={{ flexDirection: 'row', alignItems: 'center' }}>
+                  <Ionicons name="pencil" size={20} color="#000" />
+                
+                  <Text style={{paddingTop: 15}} />
+                  <Text style={{ marginLeft: 3, fontSize: 15 }}>Editar</Text>
+                
+                  </TouchableOpacity>
               </View>
             </Pressable>
           );
@@ -224,7 +231,7 @@ const styles = StyleSheet.create({
   },
   botaoFlutuante: {
     position: 'absolute',
-    bottom: 420,
+    bottom: Platform.OS === 'ios' ? 420 : 690, // Ajusta a posição para iOS e Android
     right: 20,
     width: 60,
     height: 60,
@@ -234,16 +241,17 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     elevation: 8,
     zIndex: 10,
+    shadowColor: 'transparent',
   },
   menuFlutuante: {
     position: 'absolute',
-    bottom: 272,
+    bottom: Platform.OS === 'ios' ? 270 : 510, // Ajusta a posição para iOS e Android
     right: 20,
     backgroundColor: 'white',
     borderRadius: 8,
     padding: 10,
     elevation: 6,
-    shadowColor: '#000',
+    shadowColor: 'transparent',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.3,
     shadowRadius: 4,

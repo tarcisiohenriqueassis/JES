@@ -10,19 +10,27 @@ export default function EditarFuncionario() {
   const [novoCpf, setNovoCpf] = useState(cpf);
   const router = useRouter();
 
-  const salvarEdicao = async () => {
-    try {
-      await axios.put(`https://api-jesseguranca.onrender.com/${id}`, {
-        nome: novoNome,
-        cpf: novoCpf,
-      });
+ const salvarEdicao = async () => {
+  try {
+    // Monta dinamicamente os campos a serem enviados
+    const dadosAtualizados = {};
+    if (novoNome) dadosAtualizados.nome = novoNome;
+    if (novoCpf) dadosAtualizados.cpf = novoCpf;
 
-      Alert.alert('Sucesso', 'Funcionário atualizado!');
-      router.back(); // volta para tela anterior
-    } catch (_error) {
-      Alert.alert('Erro', 'Não foi possível atualizar');
+    if (Object.keys(dadosAtualizados).length === 0) {
+      Alert.alert('Atenção', 'Preencha ao menos um campo para atualizar.');
+      return;
     }
-  };
+
+    await axios.put(`https://api-jesseguranca.onrender.com/${id}`, dadosAtualizados);
+
+    Alert.alert('Sucesso', 'Funcionário atualizado!');
+    router.back(); // volta para tela anterior
+  } catch (_error) {
+    Alert.alert('Erro', 'Não foi possível atualizar');
+  }
+};
+
 
   return (
     <View style={{ padding: 20 }}>
