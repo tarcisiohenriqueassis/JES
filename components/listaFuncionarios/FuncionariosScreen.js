@@ -30,7 +30,6 @@ import formatarCpf from '../../utils/formataCPF';
 // Importa o componente de carregamento
 import Carregando from '../../utils/carregando';
 
-
 export default function FuncionariosScreen() {
 
   // Define os estados necessários para o componente
@@ -40,7 +39,6 @@ export default function FuncionariosScreen() {
   const [menuVisivel, setMenuVisivel] = useState(false);
   const [busca, setBusca] = useState('');
   
-
   // Define a função buscarFuncionarios fora do useEffect para que possa ser usada em outros lugares
   const buscarFuncionarios = async () => {
     try {
