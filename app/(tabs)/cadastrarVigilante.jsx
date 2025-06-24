@@ -24,12 +24,17 @@ export default function CadastrarVigilante() {
       // Certifique-se de que a API está configurada para aceitar o formato correto
       // Aqui, estamos enviando o CPF sem formatação, apenas números
       const cpfNumeros = cpf.replace(/\D/g, '');
-      await axios.post('https://api-jesseguranca.onrender.com/funcionarios', { nome, cpf: cpfNumeros });
+
+      await axios.post('https://api-jesseguranca.onrender.com', { nome, cpf: cpfNumeros });
+      
       Alert.alert('Sucesso', 'Usuário cadastrado com sucesso!');
+      
       setUsuarios((prev) => [...prev, { nome, cpf: cpfNumeros }]);
       setNome('');
       setCpf('');
-    } catch (_error) {
+
+    } 
+    catch (_error) {
       Alert.alert('Erro', 'Não foi possível cadastrar o usuário');
     }
   };
