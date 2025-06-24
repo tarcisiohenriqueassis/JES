@@ -1,4 +1,7 @@
 import React, { useEffect, useState } from 'react';
+// Importa os componentes necessários do React Native
+// Importa o React e hooks necessários
+// Importa componentes do React Native para construir a interface
 import {
   View,
   Text,
@@ -6,13 +9,20 @@ import {
   Pressable,
   Button,
   Alert,
-  ActivityIndicator,
   TouchableOpacity,
   Modal,
   StyleSheet,
 } from 'react-native';
+// Importa o Expo Clipboard para copiar dados para a área de transferência
 import * as Clipboard from 'expo-clipboard';
+// Importa a biblioteca axios para fazer requisições HTTP
 import axios from 'axios';
+
+// Importa a função para formatar CPF
+import formatarCpf from '../../utils/formataCPF';
+// Importa o componente de carregamento
+import Carregando from '../../utils/carregando';
+
 
 export default function FuncionariosScreen() {
   const [funcionarios, setFuncionarios] = useState([]);
@@ -24,6 +34,8 @@ export default function FuncionariosScreen() {
     const buscarFuncionarios = async () => {
       try {
         const response = await axios.get('https://api-jesseguranca.onrender.com');
+        // Ordena a lista de funcionários pelo nome
+        // Usando localeCompare para garantir a ordenação correta em português
         const listaOrdenada = response.data.sort((a, b) =>
           a.nome.localeCompare(b.nome, 'pt', { sensitivity: 'base' })
         );
@@ -40,18 +52,16 @@ export default function FuncionariosScreen() {
 
   const alternarSelecao = (cpf) => {
     setSelecionados((prev) =>
+      // Verifica se o CPF já está selecionado
       prev.includes(cpf) ? prev.filter((item) => item !== cpf) : [...prev, cpf]
     );
   };
 
-  const formatarCpf = (cpf) => {
-    const numeros = cpf.replace(/\D/g, '');
-    return numeros.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');
-  };
-
   const copiarSelecionados = async () => {
     const dados = funcionarios
+      // Filtra os funcionários selecionados
       .filter((f) => selecionados.includes(f.cpf))
+      // Formata os dados para copiar
       .map((f) => `NOME: ${f.nome}\nCPF: ${formatarCpf(f.cpf)}\n`)
       .join('\n');
 
@@ -59,12 +69,12 @@ export default function FuncionariosScreen() {
       Alert.alert('Nenhum funcionário selecionado.');
       return;
     }
-
+    // Copia os dados formatados para a área de transferência
     await Clipboard.setStringAsync(dados);
     Alert.alert('Copiado!', 'Funcionários copiados com CPF formatado.');
     setMenuVisivel(false);
   };
-
+  
   const selecionarTodos = () => {
     if (selecionados.length === funcionarios.length) {
       setSelecionados([]);
@@ -76,12 +86,7 @@ export default function FuncionariosScreen() {
   };
 
   if (carregando) {
-    return (
-      <View style={styles.centered}>
-        <ActivityIndicator size="large" />
-        <Text>Carregando funcionários...</Text>
-      </View>
-    );
+    return <Carregando />;
   }
 
   return (
@@ -209,10 +214,5 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.3,
     shadowRadius: 4,
-  },
-  centered: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
   },
 });

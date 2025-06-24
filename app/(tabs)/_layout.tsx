@@ -14,7 +14,7 @@ const { width} = Dimensions.get('window');
 export default function Layout() {
     return (
         <>
-        {/* Definindo o estilo do TabBar */}
+        {/* Definindo o estilo do TabBar  */}
         <Tabs screenOptions={{
             tabBarStyle:{
             position: 'absolute',
@@ -22,7 +22,7 @@ export default function Layout() {
             left: 0,
             right: 0,
             height: 60,
-            backgroundColor: '#fff',
+            backgroundColor: '#000000',
             borderTopWidth: 1,
             borderTopColor: '#ccc',
             shadowColor: '#000',
@@ -40,22 +40,17 @@ export default function Layout() {
             textTransform: 'uppercase',
             fontWeight: 'bold',
         },
-        tabBarActiveBackgroundColor:'#C6A45D',
+        tabBarActiveBackgroundColor:'#007AFF',
         tabBarInactiveBackgroundColor: '#fff',
         tabBarLabelPosition: 'below-icon',
         tabBarActiveTintColor: '#000',
         tabBarInactiveTintColor: '#000',
         }} >
-,
-,
-        ,
+        <Tabs.Screen
 
-             
-             <Tabs.Screen
-        
-                name="app"
-                options={{ title: 'Inicio', 
-                tabBarIcon: ({ color }) => <Ionicons name="home" size={30} color={color}  />,
+            name="index"
+            options={{ title: 'Inicio',
+            tabBarIcon: ({ color }) => <Ionicons name="home" size={30} color={color}  />,
 
                 headerTitleAlign:'center',
 
@@ -81,6 +76,14 @@ export default function Layout() {
             <Tabs.Screen
                 name="cadastrarVigilante"
                 options={{ title:'cadastrar', tabBarIcon: ({ color }) => <Ionicons name="person-add" size={30} color={color}/>,
+                headerTitleAlign: 'center',
+                headerTitleStyle: {fontSize:(width * 0.050),fontWeight: 'bold',textTransform: 'uppercase' },}} 
+                
+            />
+
+            <Tabs.Screen
+                name="uniformes"
+                options={{ title:'Uniformes', tabBarIcon: ({ color }) => <Ionicons name="shirt" size={30} color={color}/>,
                 headerTitleAlign: 'center',
                 headerTitleStyle: {fontSize:(width * 0.050),fontWeight: 'bold',textTransform: 'uppercase' },}} 
                 

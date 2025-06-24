@@ -1,21 +1,13 @@
 {
   "build": {
-    "preview": {
+    "production": {
       "android": {
         "buildType": "apk"
       }
-    },
-    "preview2": {
-      "android": {
-        "gradleCommand": ":app:assembleRelease"
-      }
-    },
-    "preview3": {
-      "developmentClient": true
-    },
-    "production": {}
+    }
   },
   "cli": {
-    "version": ">= 0.53.1"
+    "version": ">= 0.53.1",
+    "appVersionSource": "local"
   }
 }
