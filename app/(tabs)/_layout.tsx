@@ -40,7 +40,7 @@ export default function Layout() {
             textTransform: 'uppercase',
             fontWeight: 'bold',
         },
-        tabBarActiveBackgroundColor: 'gold',
+        tabBarActiveBackgroundColor:'#C6A45D',
         tabBarInactiveBackgroundColor: '#fff',
         tabBarLabelPosition: 'below-icon',
         tabBarActiveTintColor: '#000',
