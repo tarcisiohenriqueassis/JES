@@ -34,6 +34,9 @@ import { router } from 'expo-router';
 // Importa o componente de carregamento
 import Carregando from '../../utils/carregando';
 
+// Importa a função para formatar nomes
+import formatarNome from '../../utils/formataNome';
+
 export default function FuncionariosScreen() {
 
   // Define os estados necessários para o componente
@@ -47,6 +50,11 @@ export default function FuncionariosScreen() {
   const buscarFuncionarios = async () => {
     try {
 
+      setCarregando(true);
+
+      // Faz uma requisição GET para a API para buscar a lista de funcionários
+      // A URL da API é 'https://api-jesseguranca.onrender.com/'
+      // Você pode substituir por sua própria URL de API se necessário
       const response = await axios.get('https://api-jesseguranca.onrender.com/');
 
       // Ordena a lista de funcionários pelo nome
@@ -69,20 +77,33 @@ export default function FuncionariosScreen() {
   }, []);
 
   const alternarSelecao = (cpf) => {
+    // Alterna a seleção de um funcionário com base no CPF
+    // Se o CPF já estiver selecionado, remove-o da lista
+    // Caso contrário, adiciona o CPF à lista de selecionados
     setSelecionados((prev) =>
       // Verifica se o CPF já está selecionado
       prev.includes(cpf) ? prev.filter((item) => item !== cpf) : [...prev, cpf]
     );
   };
-
+ 
+  // Função para copiar os funcionários selecionados
+  // Filtra os funcionários selecionados e formata os dados para copiar
+  // Exibe um alerta se não houver funcionários selecionados
+  // Caso contrário, copia os dados formatados para a área de transferência
   const copiarSelecionados = async () => {
+
     const dados = funcionarios
+
       // Filtra os funcionários selecionados
       .filter((f) => selecionados.includes(f.cpf))
+
       // Formata os dados para copiar
       .map((f) => `NOME: ${f.nome}\nCPF: ${formatarCpf(f.cpf)}\n`)
       .join('\n');
 
+    // Verifica se há funcionários selecionados
+    // Se não houver, exibe um alerta
+    // Caso contrário, copia os dados formatados para a área de transferência
     if (dados.trim().length === 0) {
       Alert.alert('Nenhum funcionário selecionado.');
       return;
@@ -102,16 +123,20 @@ export default function FuncionariosScreen() {
     }
     setMenuVisivel(false);
   };
-
+  // Filtra os funcionários com base na busca
+  // Verifica se o nome ou CPF contém a string de busca
+  // Converte ambos para minúsculas para comparação case-insensitive
   const funcionariosFiltrados = funcionarios.filter((f) =>
   f.nome.toLowerCase().includes(busca.toLowerCase()) || f.cpf.includes(busca)
 );
-
+  // Renderiza o componente
+  // Se estiver carregando, exibe o componente de carregamento
+  // Caso contrário, renderiza a lista de funcionários
   if (carregando) {
     return <Carregando />;
   }
-
   return (
+
     <View style={{ width: '100%', height: '100%' }}>
       {/* Título fixo no topo da tela */}
       <View style={styles.header}>
@@ -144,7 +169,7 @@ export default function FuncionariosScreen() {
               <View style={{ maxWidth: '85%' }}>
                 
                 <Text numberOfLines={1} ellipsizeMode="tail" style={{ fontSize: 16 }}>
-                  Nome: {item.nome}
+                  Nome: {formatarNome(item.nome)}
                 </Text>
 
                 <Text style={{ fontSize: 14, color: '#666' }}>Cpf: {item.cpf}</Text>
