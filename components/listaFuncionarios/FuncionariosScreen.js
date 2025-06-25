@@ -142,17 +142,19 @@ export default function FuncionariosScreen() {
               </View>
 
               <View style={{ maxWidth: '85%' }}>
+                
                 <Text numberOfLines={1} ellipsizeMode="tail" style={{ fontSize: 16 }}>
                   Nome: {item.nome}
                 </Text>
+
                 <Text style={{ fontSize: 14, color: '#666' }}>Cpf: {item.cpf}</Text>
 
-                  <TouchableOpacity onPress={() => router.push({ pathname: '/editarFuncionario',
+                  <TouchableOpacity onPress={() => router.push({ pathname: '../editarFuncionario',
                    params: { id: item.id, nome: item.nome, cpf: item.cpf } })} style={{ flexDirection: 'row', alignItems: 'center' }}>
-                  <Ionicons name="pencil" size={20} color="#000" />
+                  <Ionicons name="pencil-sharp" size={20} color="#000" />
                 
                   <Text style={{paddingTop: 15}} />
-                  <Text style={{ marginLeft: 3, fontSize: 15 }}>Editar</Text>
+                  <Text style={{ marginLeft: 3, fontSize: 15 }}>Editar </Text>
                 
                   </TouchableOpacity>
               </View>
@@ -170,7 +172,7 @@ export default function FuncionariosScreen() {
       </TouchableOpacity>
 
       {/* Menu Modal flutuante */}
-      <Modal transparent={true} visible={menuVisivel} animationType="fade">
+      <Modal transparent={true} visible={menuVisivel} animationType={Platform.OS === 'ios' ? 'fade' : 'none'}>
         <TouchableOpacity
           style={{ flex: 1 }}
           onPress={() => setMenuVisivel(false)}
@@ -185,7 +187,7 @@ export default function FuncionariosScreen() {
             <Button title="Copiar selecionados" onPress={copiarSelecionados} />
             
             <View style={{ height: 12 }} />
-            <Button title="Atualizar lista" onPress={() => buscarFuncionarios(Alert.alert('Lista atualizada!'))} />
+            <Button title="Atualizar lista" onPress={() => buscarFuncionarios(Alert.alert('Lista atualizada!'), setMenuVisivel(false))} />
           </View>
         </TouchableOpacity>
       </Modal>

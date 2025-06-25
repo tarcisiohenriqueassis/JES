@@ -8,10 +8,9 @@ export default function Carregando() {
   return (
       <View style={styles.centered}>
         <ActivityIndicator size="large" />
-        <Text>Carregando funcionários...</Text>
+        <Text>Carregando ...</Text>
       </View>
     );
-
 }
 
 

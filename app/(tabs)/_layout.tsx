@@ -22,7 +22,7 @@ export default function Layout() {
             left: 0,
             right: 0,
             height: 70,
-            backgroundColor: 'transparent',
+            backgroundColor: '#fff',
             borderTopWidth: 1,
             borderTopColor: '#ccc',
             shadowColor: '#000',
@@ -32,9 +32,9 @@ export default function Layout() {
             },
             shadowOpacity: 0.25,
             shadowRadius: 3.5,
-            elevation: 2,
+            elevation: 1,
             paddingBottom: 5,
-        
+            paddingTop: 5,
         },
         tabBarLabelStyle: {
             fontSize: width * 0.020,
@@ -44,7 +44,7 @@ export default function Layout() {
         tabBarActiveBackgroundColor:'#007fFF',
         tabBarInactiveBackgroundColor: '#fff',
         tabBarLabelPosition: 'below-icon',
-        tabBarActiveTintColor: '#000',
+        tabBarActiveTintColor: '#fff',
         tabBarInactiveTintColor: '#000',
         }} >
         <Tabs.Screen

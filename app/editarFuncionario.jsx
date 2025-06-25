@@ -1,7 +1,8 @@
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import { View, Text, TextInput, Button, Alert } from 'react-native';
-import { useState } from 'react';
+import { View, Text, TextInput, Button, Alert, StyleSheet } from 'react-native';
+import React,{ useState } from 'react';
 import axios from 'axios';
+
 
 export default function EditarFuncionario() {
 
@@ -33,23 +34,51 @@ export default function EditarFuncionario() {
 
 
   return (
-    <View style={{ padding: 20 }}>
-      <Text>Editar Funcionário</Text>
-
+    < View style={estilos.container}>
+      <Text style={estilos.titulo}>Editar Funcionário</Text>
+      <View style={{ height: 20 }} />
+      <Text style={estilos.titulo}>Nome</Text>
       <TextInput
+        style={estilos.input}
         placeholder="Nome"
         value={novoNome}
         onChangeText={setNovoNome}
-        style={{ borderBottomWidth: 1, marginBottom: 10 }}
       />
+      <Text style={estilos.titulo}>CPF</Text>
       <TextInput
+        style={estilos.input}
+        keyboardType="numeric"
+        maxLength={11}
         placeholder="CPF"
         value={novoCpf}
         onChangeText={setNovoCpf}
-        style={{ borderBottomWidth: 1, marginBottom: 10 }}
-      />
+        />
+      <View style={estilos.container}>
 
-      <Button title="Salvar Alterações" onPress={salvarEdicao} />
+      <Button title="Salvar Alterações" style={estilos.Btn} onPress={salvarEdicao} />
+      <View style={{ height: 20 }} />
+      <Button title="Cancelar" style={estilos.Btn}  onPress={() => router.replace('/vigilantes')} />
+
+      </View>
     </View>
   );
 }
+
+const estilos = StyleSheet.create({
+  container: {
+    padding: 20,
+  },
+  titulo: {
+    fontSize: 20,
+    fontWeight: 'bold',
+  },
+  input: {
+    borderBottomWidth: 1,
+    marginBottom: 15,
+    paddingBottom: 5,
+  },
+  Btn: {
+    backgroundColor: '#007AFF',
+    color: '#FFF',
+  },
+});
