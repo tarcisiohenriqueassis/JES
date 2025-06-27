@@ -47,7 +47,7 @@ export default function Layout() {
         tabBarActiveTintColor: '#fff',
         tabBarInactiveTintColor: '#000',
         }} >
-        <Tabs.Screen
+            <Tabs.Screen
 
             name="index"
             options={{ title: 'Inicio',
@@ -83,8 +83,8 @@ export default function Layout() {
             />
 
             <Tabs.Screen
-                name="uniformes"
-                options={{ title:'Uniformes', tabBarIcon: ({ color }) => <Ionicons name="shirt" size={30} color={color}/>,
+                name="equipamentos"
+                options={{ title:'Equipamentos', tabBarIcon: ({ color }) => <Ionicons name="shirt" size={30} color={color}/>,
                 headerTitleAlign: 'center',
                 headerTitleStyle: {fontSize:(width * 0.050),fontWeight: 'bold',textTransform: 'uppercase' },}} 
                 

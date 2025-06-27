@@ -1,5 +1,6 @@
-
 import React, { useState, useRef, useEffect } from 'react';
+
+import axios from 'axios'; // Importa a biblioteca axios para fazer requisições HTTP
 
 // Importa os componentes necessários do React Native
 // View para contêineres, Text para textos, FlatList para listas roláveis,
@@ -43,9 +44,36 @@ function Dashboard() {
   const [indexAtual, setIndexAtual] = useState(0);
   const flatListRef = useRef(null);
   const navigation = useNavigation(); // Hook para navegação
+  const [quantidadeVigilantes, setQuantidadeVigilantes] = useState(0);
+  const [quantidadeEquipamentos, setQuantidadeEquipamentos] = useState(0);
 
-  const quantidadeUniformes = 120;
-  const quantidadeVigilantes = 45;
+  // Efeito para carregar a quantidade de equipamentos
+  const API_URL_EQUIPAMENTOS = 'https://api-jesseguranca.onrender.com/equipamentos';
+
+  const carregarEquipamentos = async () => {
+    try {
+      const response = await axios.get(API_URL_EQUIPAMENTOS);
+      setQuantidadeEquipamentos(response.data.length);
+    } catch (error) {
+      console.error('Erro ao buscar equipamentos:', error);
+    } finally {
+      carregarEquipamentos(); // Chama a função para carregar os equipamentos
+    }
+  };
+
+  // Efeito para carregar a quantidade de vigilantes
+  const API_URL_VIGILANTES = 'https://api-jesseguranca.onrender.com/funcionarios';
+
+  const carregarVigilantes = async () => {
+    try {
+      const response = await axios.get(API_URL_VIGILANTES);
+      setQuantidadeVigilantes(response.data.length);
+    } catch (error) {
+      console.error('Erro ao buscar vigilantes:', error);
+    } finally {
+      carregarVigilantes(); // Chama a função para carregar os vigilantes
+    }
+  };
 
   // Função para lidar com o scroll do FlatList
   // Atualiza o índice atual com base na posição do scroll
@@ -103,11 +131,11 @@ function Dashboard() {
         {/* Ao clicar, navega para a tela de uniformes */}
         <TouchableOpacity
           style={styles.card}
-          onPress={() => navigation.navigate('uniformes')} // nome da tela dos uniformes
+          onPress={() => navigation.navigate('equipamentos')} // nome da tela dos equipamentos
         >
           <Ionicons name="shirt" size={40} color="#fff" />
-          <Text style={styles.valor}>{quantidadeUniformes}</Text>
-          <Text style={styles.label}>Uniformes</Text>
+          <Text style={styles.valor}>{quantidadeEquipamentos}</Text>
+          <Text style={styles.label}>Equipamentos</Text>
 
         </TouchableOpacity>
 

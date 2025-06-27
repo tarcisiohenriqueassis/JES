@@ -55,7 +55,7 @@ export default function FuncionariosScreen() {
       // Faz uma requisição GET para a API para buscar a lista de funcionários
       // A URL da API é 'https://api-jesseguranca.onrender.com/'
       // Você pode substituir por sua própria URL de API se necessário
-      const response = await axios.get('https://api-jesseguranca.onrender.com/');
+      const response = await axios.get('https://api-jesseguranca.onrender.com/funcionarios');
 
       // Ordena a lista de funcionários pelo nome
       // Usando localeCompare para garantir a ordenação correta em português
