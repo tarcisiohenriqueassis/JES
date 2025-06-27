@@ -23,7 +23,7 @@ export default function EditarFuncionario() {
       return;
     }
 
-    await axios.put(`https://api-jesseguranca.onrender.com/${id}`, dadosAtualizados);
+    await axios.put(`https://api-jesseguranca.onrender.com/funcionarios/${id}`, dadosAtualizados);
 
     Alert.alert('Sucesso', 'Funcionário atualizado!');
     router.back(); // volta para tela anterior
